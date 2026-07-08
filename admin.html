@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel</title>
+</head>
+<body>
+
+<h1>Admin Panel</h1>
+ 
+<h2>Dashboard Statistics</h2>
+
+<div class="stats">
+
+    <div class="card">
+        <h3>Total Records</h3>
+        <h2 id="totalRecords">0</h2>
+    </div>
+
+    <div class="card">
+        <h3>Present</h3>
+        <h2 id="presentCount">0</h2>
+    </div>
+
+    <div class="card">
+        <h3>Late</h3>
+        <h2 id="lateCount">0</h2>
+    </div>
+
+    <div class="card">
+        <h3>Current Organization</h3>
+        <h2 id="organizationCount">0</h2>
+    </div>
+
+</div>
+
+
+
+
+ <h2>Attendance Records</h2>
+<br>
+<label>Search</label>
+<input
+    type="text"
+    id="searchBox"
+    placeholder="Search by name..."
+>
+
+
+<br><br>
+
+<label>Organization</label>
+
+<select id="organizationFilter">
+    <option value="">All</option>
+</select>
+
+<br><br>
+
+<label>Date</label>
+
+<select id="dateFilter">
+    <option value="">All</option>
+</select>
+
+<br><br>
+
+<label>Schedule</label>
+
+<select id="scheduleFilter">
+    <option value="">All</option>
+</select>
+
+<br><br>
+
+<label>Remarks</label>
+
+<select id="remarksFilter">
+    <option value="">All</option>
+</select>
+
+<br><br>
+
+<button id="exportCsvBtn">
+    Export CSV
+</button>
+
+<button id="clearAttendanceBtn">
+    Clear Attendance Records
+</button>
+
+<br><br>
+
+<table border="1" id="attendanceTable">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Organization</th>
+            <th>Date</th>
+            <th>Schedule</th>
+            <th>Time In</th>
+            <th>Remarks</th>
+            
+        </tr>
+    </thead>
+
+    <tbody>
+
+    </tbody>
+</table>
+
+
+
+<br>
+
+<hr>
+
+<h2>Meeting Management</h2>
+
+<h3 id="meetingFormTitle">Create Meeting</h3>
+
+<div id="meetingForm">
+
+    <label>Meeting Name</label><br>
+    <input
+        type="text"
+        id="meetingName"
+        placeholder="Enter meeting name">
+
+    <br><br>
+
+    <label>Start Time</label><br>
+    <input
+        type="time"
+        id="meetingStart">
+
+    <br><br>
+
+    <label>Cutoff Time</label><br>
+    <input
+        type="time"
+        id="meetingCutoff">
+
+    <br><br>
+
+    <button id="createMeetingBtn">
+        Create Meeting
+    </button>
+
+    <button id="clearMeetingBtn">
+         Clear
+    </button>
+
+</div>
+
+<br>
+
+<table id="meetingsTable">
+
+    <thead>
+        <tr>
+            <th>Meeting Name</th>
+            <th>Start Time</th>
+            <th>Cutoff Time</th>
+            <th>Active</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+    </tbody>
+
+</table>
+
+<hr>
+
+<br><br>
+
+
+<button id="logoutBtn">
+    Logout
+</button>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/conf.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/stats.js"></script>
+<script src="js/table.js"></script>
+<script src="js/filtering.js"></script>
+<script src="js/admin_data.js"></script>
+<script src="/js/manage_meetings.js"></script>
+<script src="js/export.js"></script>
+<script src="js/admin_actions.js"></script>
+<script src="js/admin.js"></script>
+
+</body>
+</html>

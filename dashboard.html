@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+
+    <h1>Dashboard</h1>
+
+<h2>Attendance Form</h2>
+
+<label>Name</label><br>
+<input type="text" id="name" readonly><br><br>
+
+<label>Email</label><br>
+<input type="email" id="email" readonly><br><br>
+
+<label>Organization</label><br>
+<select id="organization" required>
+    <option value="">Select Organization</option>
+</select>
+
+<br><br>
+
+<label>Date</label><br>
+<input type="date" id="date" readonly>
+
+<br><br>
+
+<label>Schedule</label><br>
+<select id="schedule" required>
+    <option value="">Select Schedule</option>
+</select>
+
+<br><br>
+
+<button id="submitAttendance">
+    Submit Attendance
+</button>
+
+<br><br>
+
+<button id="logoutBtn">
+    Logout
+</button>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/conf.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/attendance.js"></script>
+    <script src="js/orgs.js"></script>
+    <script src="js/meetings.js"></script>
+    <script src="js/dashboard.js"></script>
+
+</body>
+</html>
