@@ -11,20 +11,19 @@ body, html {
 }
 
 /* The Immersive Background */
-/* The Immersive Background */
 body {
-    background-color: #ffffff; /* Changed to white to match the JPG edges seamlessly */
+    background-color: #ffffff; 
     background-image: 
-        linear-gradient(rgba(17, 24, 39, 0.85), rgba(17, 24, 39, 0.95)), /* Dark tint layer */
-        url('../images/mlm_logo.jpg'); /* Logo layer */
+        /* Lightened the tint from 0.85/0.95 down to 0.65/0.75 */
+        linear-gradient(rgba(17, 24, 39, 0.65), rgba(17, 24, 39, 0.75)), 
+        url('../images/mlm_logo.jpg'); 
     background-position: center, center;
     background-repeat: no-repeat, no-repeat;
-    background-size: cover, 650px; /* Kept your 650px adjustment! */
+    background-size: cover, 650px; 
     display: flex;
     justify-content: center;
     align-items: center;
 }
-
 .container {
     width: 100%;
     padding: 24px;

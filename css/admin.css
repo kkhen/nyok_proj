@@ -9,6 +9,7 @@ body {
     background-color: #f9fafb;
     color: #111827;
     min-height: 100vh;
+    overflow-x: hidden; /* NEW: Stops the invisible mobile scroll bug */
 }
 
 /* Navbar */
@@ -45,6 +46,7 @@ body {
 }
 
 /* Layout */
+/* Update this block in admin.css */
 .admin-container {
     padding: 32px;
     max-width: 1400px;
@@ -52,6 +54,8 @@ body {
     display: flex;
     flex-direction: column;
     gap: 32px;
+    width: 100%;       /* NEW: Ensures it doesn't push past the screen */
+    box-sizing: border-box; /* NEW: Keeps padding inside the width */
 }
 
 /* Sections & Cards */
@@ -317,22 +321,23 @@ tr:hover td {
     background: #fef2f2;
 }
 
-/* Premium Confirmation Modal */
+/* Update this block in admin.css */
 .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;    /* Force width to be exactly the viewport width */
+    height: 100vh;   /* Force height to be exactly the viewport height */
     background: rgba(17, 24, 39, 0.4);
-    backdrop-filter: blur(2px); /* Premium glass blur effect */
+    backdrop-filter: blur(2px);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 2000;
+    z-index: 9999;   /* Higher z-index to stay above all other elements */
     opacity: 0;
     pointer-events: none;
     transition: all 0.3s ease;
+    padding: 20px;
 }
 
 .modal-overlay.show {
@@ -585,4 +590,46 @@ tr:hover td {
     cursor: not-allowed;
     background: #fef2f2;
     border-color: #fee2e2;
+}
+
+/* Premium Accordion Slide Animation */
+.accordion-wrapper {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition: grid-template-rows 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+}
+
+.accordion-wrapper.open {
+    grid-template-rows: 1fr;
+    opacity: 1;
+}
+
+.accordion-inner {
+    overflow: hidden;
+}
+
+/* Premium Sortable Table Header */
+.sortable-header {
+    cursor: pointer;
+    user-select: none; /* Prevents text highlighting when clicking fast */
+    transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.sortable-header:hover {
+    color: #111827; /* Darkens text to near-black on hover */
+}
+
+.sort-icon {
+    width: 14px;
+    height: 14px;
+    color: #9ca3af;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s ease;
+}
+
+.sortable-header:hover .sort-icon {
+    color: #111827; /* Icon darkens along with text */
 }

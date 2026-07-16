@@ -283,10 +283,21 @@
         </div>
     </div>
 
-    <section class="card">
-            <h2 class="section-title">Organization Management</h2>
+    <!-- Organization Management (Collapsible Accordion) -->
+        <section class="card">
+            <!-- Premium Clickable Header -->
+            <div id="orgToggleBtn" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer; padding-bottom: 8px;">
+                <h2 class="section-title" style="margin-bottom: 0;">Organization Management</h2>
+                <svg id="orgToggleIcon" style="width: 20px; height: 20px; transition: transform 0.3s; color: #6b7280;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </div>
             
-            <div class="meeting-layout"> <div class="meeting-form-wrapper">
+            <!-- The Hidden Content Container -->
+            <div id="orgContent" class="accordion-wrapper">
+                <div class="accordion-inner">
+                    <div style="margin-top: 24px; border-top: 1px solid #e5e7eb; padding-top: 24px;"> 
+                <div class="meeting-layout"> <div class="meeting-form-wrapper">
                     <h3 class="section-title" style="font-size: 15px; margin-bottom: 16px;">Add Organization</h3>
                     <div class="form-grid">
                         <div class="filter-group">
@@ -305,9 +316,8 @@
                         <div class="entries-selector">
                             SHOW:
                             <select id="orgRowsPerPage">
-                                <option value="5" selected>5</option>
+                                <option value="6" selected>6</option>
                                 <option value="10">10</option>
-                                <option value="25">25</option>
                                 <option value="all">All</option>
                             </select>
                             ENTRIES
@@ -318,8 +328,14 @@
                         <table id="orgsTable">
                             <thead>
                                 <tr>
-                                    <th>Organization Name</th>
-                                    <th style="width: 100px;">Actions</th>
+                                    <!-- Added an ID, a class, and an SVG icon -->
+                                    <th id="sortOrgName" class="sortable-header">
+                                        Organization Name
+                                        <svg class="sort-icon" id="orgSortIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                        </svg>
+                                    </th>
+                                    <th style="width: 100px; text-align: right;">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -337,7 +353,65 @@
                     </div>
                 </div>
             </div>
-        </section>
+            </div> </div> </div> </section>
+
+        <!-- Premium Confirmation Modal for Adding Organization -->
+    <div id="addOrgModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <!-- Premium Blue Plus Icon -->
+                <svg class="modal-icon" fill="none" stroke="#3b82f6" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+                <h3>Add Organization</h3>
+            </div>
+            <p class="modal-body">Are you sure you want to add <strong id="confirmOrgName" style="color: #111827;"></strong> to the database?</p>
+            <div class="modal-actions">
+                <button id="cancelAddOrgBtn" class="btn btn-outline">Cancel</button>
+                <button id="confirmAddOrgBtn" class="btn btn-primary">Add Organization</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="deleteOrgModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <svg class="modal-icon" fill="none" stroke="#ef4444" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                </svg>
+                <h3>Delete Organization</h3>
+            </div>
+            <p class="modal-body">Are you sure you want to delete <strong id="deleteOrgNameDisplay" style="color: #111827;"></strong>?<br>This action cannot be undone.</p>
+            <div class="modal-actions">
+                <button id="cancelDeleteOrgBtn" class="btn btn-outline">Cancel</button>
+                <button id="confirmDeleteOrgBtn" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Premium Edit Organization Modal -->
+    <div id="editOrgModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <!-- Premium Amber Edit Icon -->
+                <svg class="modal-icon" fill="none" stroke="#f59e0b" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                </svg>
+                <h3>Edit Organization</h3>
+            </div>
+            <div class="modal-body" style="text-align: left;">
+                <label style="display: block; font-size: 14px; font-weight: 500; color: #374151; margin-bottom: 8px;">Organization Name</label>
+                <!-- Inherits your premium input styling -->
+                <input type="text" id="editOrgNameInput" class="modal-input" style="width: 100%; padding: 10px 12px; border: 1px solid #d1d5db; border-radius: 6px; margin-bottom: 8px;">
+            </div>
+            <div class="modal-actions">
+                <button id="cancelEditOrgBtn" class="btn btn-outline">Cancel</button>
+                <button id="confirmEditOrgBtn" class="btn btn-primary" style="background: #f59e0b; border-color: #f59e0b;">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+        
 
     </main>
 
