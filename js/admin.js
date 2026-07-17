@@ -1,3 +1,30 @@
+// --- Premium Light/Dark Mode Logic ---
+const currentTheme = localStorage.getItem("theme");
+
+// Instantly apply the saved theme on page load to prevent flashing
+if (currentTheme === "dark") {
+    document.documentElement.setAttribute("data-theme", "dark");
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    const themeToggleBtn = document.getElementById("themeToggleBtn");
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener("click", () => {
+            const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+            if (isDark) {
+                // Switch to Light Mode
+                document.documentElement.removeAttribute("data-theme");
+                localStorage.setItem("theme", "light");
+            } else {
+                // Switch to Dark Mode
+                document.documentElement.setAttribute("data-theme", "dark");
+                localStorage.setItem("theme", "dark");
+            }
+        });
+    }
+});
+// -------------------------------------
+
 let attendanceData = [];
 
 async function refreshAttendancePage() {

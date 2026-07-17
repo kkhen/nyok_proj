@@ -136,6 +136,7 @@ body {
 
 .filter-group input, 
 .filter-group select {
+    width: 100%; /* NEW: Keeps inputs strictly inside their boundaries */
     padding: 10px 12px;
     border: 1px solid #d1d5db;
     border-radius: 6px;
@@ -268,6 +269,11 @@ tr:hover td {
     gap: 32px;
     align-items: start;
     margin-top: 16px;
+}
+
+/* CRITICAL FIX: Forces grid children to respect the screen width */
+.meeting-layout > * {
+    min-width: 0; 
 }
 
 @media (max-width: 1024px) {
@@ -632,4 +638,199 @@ tr:hover td {
 
 .sortable-header:hover .sort-icon {
     color: #111827; /* Icon darkens along with text */
+}
+
+/* --- Premium Rolling Cylinder --- */
+.roll-action-group { display: inline-flex; gap: 16px; }
+.roll-btn { 
+    background: transparent; border: none; overflow: hidden; 
+    height: 20px; cursor: pointer; color: #6b7280; padding: 0 4px;
+}
+/* This container holds both the text and icon stacked vertically */
+.roll-content { 
+    display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 40px; /* Exactly double the height of the button */
+    pointer-events: none;
+}
+.roll-text { height: 20px; display: flex; align-items: center; font-size: 13px; font-weight: 500; }
+/* We use margin instead of padding so the SVG doesn't get crushed */
+.roll-icon { 
+    height: 16px; 
+    width: 16px; 
+    margin: 2px 0; /* 16px height + 4px margin = exactly 20px to match the text! */
+    display: block;
+}
+
+/* The Scroll Magic */
+.roll-btn:hover .roll-content { transform: translateY(-20px); }
+.roll-btn.roll-edit:hover { color: #d97706; }
+.roll-btn.roll-delete:hover { color: #ef4444; }
+
+/* --- Premium Mobile UI Polish --- */
+@media (max-width: 768px) {
+    /* Reduce background padding */
+    .admin-container {
+        padding: 16px;
+        gap: 16px;
+    }
+    
+    /* Reduce card padding */
+    .card {
+        padding: 16px;
+    }
+    
+    /* Shrink the navbar slightly */
+    .navbar {
+        padding: 12px 16px;
+    }
+    
+    /* Stack the section headers so buttons don't clip */
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    
+    /* Make Action buttons full width on mobile */
+    .section-header .action-buttons {
+        width: 100%;
+        display: flex;
+        gap: 8px;
+    }
+    
+    .section-header .action-buttons .btn {
+        flex: 1; /* Makes Export & Clear buttons split the screen evenly */
+    }
+}
+
+/* --- Premium Dark Mode Overrides (GitHub Inspired) --- */
+/* --- Naked Toggle Button Styling & Animation --- */
+.theme-btn {
+    background: transparent; 
+    border: none; /* Removes the outline */
+    padding: 8px;
+    border-radius: 50%; /* Makes the hover effect a perfect circle */
+    color: #6b7280; 
+    cursor: pointer; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Hover creates a soft circle and pops the icon slightly */
+.theme-btn:hover { 
+    background: #f3f4f6; 
+    color: #111827; 
+    transform: scale(1.05); 
+}
+
+/* Smooth physics for the icon rotation */
+.theme-btn svg {
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* The Sun spins 90 degrees on hover */
+.theme-btn:hover .sun-icon {
+    transform: rotate(90deg);
+}
+
+/* The Moon gently tilts back on hover */
+.theme-btn:hover .moon-icon {
+    transform: rotate(-15deg);
+}
+/* The Dark Mode Activations */
+[data-theme="dark"] body { background-color: #0d1117; color: #e6edf3; }
+[data-theme="dark"] .navbar, 
+[data-theme="dark"] .card, 
+[data-theme="dark"] .stat-card, 
+[data-theme="dark"] .modal-card,
+[data-theme="dark"] .toast { 
+    background-color: #161b22; 
+    border-color: #30363d; 
+    color: #e6edf3;
+}
+[data-theme="dark"] .section-title, 
+[data-theme="dark"] .stat-card h2, 
+[data-theme="dark"] .modal-header h3 { color: #ffffff; }
+
+/* Table Overrides */
+[data-theme="dark"] th { background: #010409; color: #8b949e; border-color: #30363d; }
+[data-theme="dark"] td { color: #c9d1d9; border-color: #30363d; }
+[data-theme="dark"] tr:hover td { background: #21262d; }
+
+/* Input Overrides */
+[data-theme="dark"] .filter-group input, 
+[data-theme="dark"] .filter-group select,
+[data-theme="dark"] .modal-input,
+[data-theme="dark"] .entries-selector select { 
+    background-color: #0d1117; 
+    border-color: #30363d; 
+    color: #e6edf3; 
+}
+[data-theme="dark"] .filter-group input:focus, 
+[data-theme="dark"] .filter-group select:focus { border-color: #58a6ff; box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.1); }
+[data-theme="dark"] .filter-group label { color: #8b949e; }
+
+/* Button Overrides */
+[data-theme="dark"] .btn-outline,
+[data-theme="dark"] .logout-btn { background: transparent; border-color: #30363d; color: #c9d1d9; }
+
+[data-theme="dark"] .btn-outline:hover,
+[data-theme="dark"] .logout-btn:hover { background: #21262d; border-color: #8b949e; color: #ffffff; }
+
+/* Naked Theme Btn in Dark Mode */
+[data-theme="dark"] .theme-btn { background: transparent; border: none; color: #8b949e; }
+[data-theme="dark"] .theme-btn:hover { background: #21262d; color: #ffffff; }
+
+/* Sun/Moon Toggle Logic */
+[data-theme="dark"] .sun-icon { display: block !important; }
+[data-theme="dark"] .moon-icon { display: none !important; }
+
+/* Rolling Cylinder Dark Mode Polish */
+[data-theme="dark"] .roll-btn { color: #8b949e; }
+[data-theme="dark"] .roll-btn.roll-edit:hover { color: #58a6ff; }
+[data-theme="dark"] .roll-btn.roll-delete:hover { color: #f85149; }
+
+/* --- Dark Mode Patch: Danger Buttons (Clear Records) --- */
+[data-theme="dark"] .btn-danger {
+    background: rgba(248, 81, 73, 0.1); /* Sleek, transparent red tint */
+    border: 1px solid rgba(248, 81, 73, 0.4);
+    color: #ff7b72; /* Premium soft red text */
+}
+[data-theme="dark"] .btn-danger:hover {
+    background: rgba(248, 81, 73, 0.2);
+    border-color: rgba(248, 81, 73, 0.8);
+    color: #ffa198;
+}
+
+/* --- Dark Mode Patch: Pagination Text & Status --- */
+[data-theme="dark"] .page-indicator {
+    color: #e6edf3; /* Makes 'Page 1 of 1' crisp and readable */
+}
+[data-theme="dark"] .pagination-info,
+[data-theme="dark"] .entries-selector {
+    color: #8b949e; /* Soft grays for the secondary info text */
+}
+
+/* --- Dark Mode Patch: Pagination Buttons (Previous / Next) --- */
+/* Active state */
+[data-theme="dark"] .pagination-buttons .btn {
+    background: #21262d;
+    border: 1px solid #30363d;
+    color: #c9d1d9;
+}
+[data-theme="dark"] .pagination-buttons .btn:hover:not(:disabled) {
+    background: #30363d;
+    border-color: #8b949e;
+    color: #ffffff;
+}
+/* Disabled state */
+[data-theme="dark"] .pagination-buttons .btn:disabled {
+    background: transparent;
+    border: 1px solid #21262d;
+    color: #484f58; /* Muted stealth text */
+    opacity: 1; /* Removes the light-mode opacity fade */
+    cursor: not-allowed;
 }
