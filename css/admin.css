@@ -702,6 +702,23 @@ tr:hover td {
     .section-header .action-buttons .btn {
         flex: 1; /* Makes Export & Clear buttons split the screen evenly */
     }
+
+    .logout-btn {
+        white-space: nowrap; 
+        padding: 6px 12px; /* Slims the padding down just a hair for mobile */
+    }
+
+    /* 2. Slightly shrink the badge so it fits better next to the logo */
+    .admin-badge {
+        font-size: 13px; 
+        line-height: 1.2;
+    }
+
+    /* 3. Tighten the gap between the logo, divider, and text */
+    .nav-brand {
+        gap: 8px; 
+    }
+    
 }
 
 /* --- Premium Dark Mode Overrides (GitHub Inspired) --- */
@@ -833,4 +850,84 @@ tr:hover td {
     color: #484f58; /* Muted stealth text */
     opacity: 1; /* Removes the light-mode opacity fade */
     cursor: not-allowed;
+}
+
+/* --- Premium Navbar Branding --- */
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.nav-logo {
+    height: 36px; /* Scales the logo down slightly for a clean navbar fit */
+    border-radius: 4px; /* Optional: Softens the edges of the JPG */
+}
+.nav-text {
+    height: 28px; /* Keeps the text image proportional */
+}
+.admin-divider {
+    height: 24px;
+    width: 2px;
+    background-color: #e5e7eb;
+    margin: 0 4px;
+}
+.admin-badge {
+    font-size: 16px;
+    font-weight: 600;
+    color: #4b5563;
+    letter-spacing: -0.01em;
+}
+
+/* --- Dark Mode Patch for Branding --- */
+[data-theme="dark"] .admin-divider { background-color: #30363d; }
+[data-theme="dark"] .admin-badge { color: #8b949e; }
+/* Since the logo text is a JPG, this subtle filter blends it slightly better with dark mode */
+/* --- The Dark Mode Logo Magic Trick --- */
+[data-theme="dark"] .nav-logo,
+[data-theme="dark"] .nav-text {
+    /* 1. Inverts white to black. 
+       2. Rotates the hue 180deg to turn the colors back to blue. 
+       3. Boosts the brightness so it pops. */
+    filter: invert(1) hue-rotate(180deg) brightness(1.8);
+    
+    /* 4. Drops the new black background entirely, making it transparent! */
+    mix-blend-mode: screen; 
+}
+
+/* --- Dark Mode Patch: Primary Buttons (Create / Add) --- */
+[data-theme="dark"] .btn-primary {
+    background: #1f6feb; /* Premium GitHub-style accent blue */
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 12px rgba(31, 111, 235, 0.2); /* Soft ambient shadow */
+}
+[data-theme="dark"] .btn-primary:hover {
+    background: #388bfd;
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* --- Dark Mode Patch: Toggle Switches --- */
+/* Inactive State */
+[data-theme="dark"] .slider {
+    background-color: #0d1117; /* Deep background cavity */
+    box-shadow: inset 0 0 0 1px #30363d; /* Uses inset shadow to prevent layout shifting */
+}
+[data-theme="dark"] .slider:before {
+    background-color: #8b949e; /* Muted stealth gray thumb */
+    box-shadow: none; /* Removes harsh light-mode shadow */
+}
+
+/* Active State (Premium Cyber Glow) */
+[data-theme="dark"] .toggle-switch input:checked + .slider {
+    background-color: rgba(88, 166, 255, 0.15); /* Soft translucent blue track */
+    box-shadow: inset 0 0 0 1px rgba(88, 166, 255, 0.4); 
+}
+[data-theme="dark"] .toggle-switch input:checked + .slider:before {
+    background-color: #58a6ff; /* Vibrant neon blue thumb */
+    box-shadow: 0 0 8px rgba(88, 166, 255, 0.6); /* The sleek glow effect */
+}
+
+/* Accessibility Focus Ring */
+[data-theme="dark"] .toggle-switch input:focus-visible + .slider {
+    box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.4);
 }

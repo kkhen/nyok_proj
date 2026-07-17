@@ -16,7 +16,14 @@
 
     <!-- Top Navigation -->
     <nav class="navbar">
-        <h1>Admin Dashboard</h1>
+        <!-- Premium Branded Logo Section -->
+        <div class="nav-brand">
+            <img src="images/mlm_logo2.jpg" alt="MLM Logo" class="nav-logo">
+            <img src="images/mlm_text.jpg" alt="Ministry of Liturgical Music Text" class="nav-text">
+            <div class="admin-divider"></div>
+            <span class="admin-badge">Admin Dashboard</span>
+        </div>
+
         <div style="display: flex; gap: 12px; align-items: center;">
             <!-- Premium Dark Mode Toggle -->
             <!-- Naked Animated Dark Mode Toggle -->
@@ -121,7 +128,12 @@
                 <table id="attendanceTable">
                     <thead>
                         <tr>
-                            <th>Name</th>
+                            <th id="sortAttendanceName" class="sortable-header">
+                                Name
+                                <svg class="sort-icon" id="attendanceSortIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </th>
                             <th>Organization</th>
                             <th>Date</th>
                             <th>Schedule</th>

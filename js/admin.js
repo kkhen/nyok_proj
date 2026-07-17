@@ -108,3 +108,33 @@ function showLogoutModal() {
         cancelBtn.onclick = () => cleanup(false);
     });
 }
+
+// --- Premium Attendance Name Sorting Logic ---
+let attendanceSortAsc = true; 
+
+document.getElementById("sortAttendanceName").addEventListener("click", () => {
+    const icon = document.getElementById("attendanceSortIcon");
+    
+    // Safety check: ensure data actually exists before trying to sort
+    if (!filteredAttendanceData || filteredAttendanceData.length === 0) return;
+
+    // 🛑 EXACT MATCH: Your database outputs this with a capital 'N'
+    const column = "Name"; 
+    
+    // We wrap it in String() to prevent crashes if a record happens to have a blank/null name
+    if (attendanceSortAsc) {
+        filteredAttendanceData.sort((a, b) => String(b[column]).localeCompare(String(a[column])));
+        icon.style.transform = "rotate(180deg)"; 
+    } else {
+        filteredAttendanceData.sort((a, b) => String(a[column]).localeCompare(String(b[column])));
+        icon.style.transform = "rotate(0deg)"; 
+    }
+    
+    attendanceSortAsc = !attendanceSortAsc; 
+    
+    if (typeof currentPage !== 'undefined') {
+        currentPage = 1; 
+    }
+    
+    renderTable(filteredAttendanceData);
+});
