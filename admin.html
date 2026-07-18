@@ -2,197 +2,459 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Panel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - MLM</title>
+    
+    <!-- Premium Font: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
 
-<h1>Admin Panel</h1>
- 
-<h2>Dashboard Statistics</h2>
+    <!-- Top Navigation -->
+    <nav class="navbar">
+        <!-- Premium Branded Logo Section -->
+        <div class="nav-brand">
+            <img src="images/mlm_logo2.jpg" alt="MLM Logo" class="nav-logo">
+            <img src="images/mlm_text.jpg" alt="Ministry of Liturgical Music Text" class="nav-text">
+            <div class="admin-divider"></div>
+            <span class="admin-badge">Admin Dashboard</span>
+        </div>
 
-<div class="stats">
-
-    <div class="card">
-        <h3>Total Records</h3>
-        <h2 id="totalRecords">0</h2>
-    </div>
-
-    <div class="card">
-        <h3>Present</h3>
-        <h2 id="presentCount">0</h2>
-    </div>
-
-    <div class="card">
-        <h3>Late</h3>
-        <h2 id="lateCount">0</h2>
-    </div>
-
-    <div class="card">
-        <h3>Current Organization</h3>
-        <h2 id="organizationCount">0</h2>
-    </div>
-
-</div>
-
-
-
-
- <h2>Attendance Records</h2>
-<br>
-<label>Search</label>
-<input
-    type="text"
-    id="searchBox"
-    placeholder="Search by name..."
->
-
-
-<br><br>
-
-<label>Organization</label>
-
-<select id="organizationFilter">
-    <option value="">All</option>
-</select>
-
-<br><br>
-
-<label>Date</label>
-
-<select id="dateFilter">
-    <option value="">All</option>
-</select>
-
-<br><br>
-
-<label>Schedule</label>
-
-<select id="scheduleFilter">
-    <option value="">All</option>
-</select>
-
-<br><br>
-
-<label>Remarks</label>
-
-<select id="remarksFilter">
-    <option value="">All</option>
-</select>
-
-<br><br>
-
-<button id="exportCsvBtn">
-    Export CSV
-</button>
-
-<button id="clearAttendanceBtn">
-    Clear Attendance Records
-</button>
-
-<br><br>
-
-<table border="1" id="attendanceTable">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Organization</th>
-            <th>Date</th>
-            <th>Schedule</th>
-            <th>Time In</th>
-            <th>Remarks</th>
+        <div style="display: flex; gap: 12px; align-items: center;">
+            <!-- Premium Dark Mode Toggle -->
+            <!-- Naked Animated Dark Mode Toggle -->
+            <button id="themeToggleBtn" class="theme-btn" title="Toggle Dark Mode">
+                <!-- Sun Icon -->
+                <svg class="sun-icon" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" style="display: none; width: 20px; height: 20px;">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+                </svg>
+                <!-- Moon Icon -->
+                <svg class="moon-icon" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" style="display: block; width: 20px; height: 20px;">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                </svg>
+            </button>
             
-        </tr>
-    </thead>
+            <button id="logoutBtn" class="logout-btn">Log out</button>
+        </div>
+    </nav>
 
-    <tbody>
+    <!-- Main Content Grid -->
+    <main class="admin-container">
+        
+        <!-- Dashboard Statistics -->
+        <section>
+            <h2 class="section-title">Overview Statistics</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Total Records</h3>
+                    <h2 id="totalRecords">0</h2>
+                </div>
+                <div class="stat-card">
+                    <h3>Present</h3>
+                    <h2 id="presentCount">0</h2>
+                </div>
+                <div class="stat-card">
+                    <h3>Late</h3>
+                    <h2 id="lateCount">0</h2>
+                </div>
+                <div class="stat-card">
+                    <h3>Current Organization</h3>
+                    <h2 id="organizationCount">All</h2>
+                </div>
+            </div>
+        </section>
 
-    </tbody>
-</table>
+        <!-- Attendance Records -->
+        <section class="card">
+            <div class="section-header">
+                <h2 class="section-title">Attendance Records</h2>
+                <div class="action-buttons">
+                    <button id="exportCsvBtn" class="btn btn-outline">Export CSV</button>
+                    <button id="clearAttendanceBtn" class="btn btn-danger">Clear Records</button>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="filters-bar">
+                <div class="filter-group">
+                    <label>Search Name</label>
+                    <input type="text" id="searchBox" placeholder="Search records...">
+                </div>
+                <div class="filter-group">
+                    <label>Organization</label>
+                    <div class="select-wrapper">
+                        <select id="organizationFilter" onchange="this.blur()"><option value="">All</option></select>
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <label>Date</label>
+                    <div class="select-wrapper">
+                        <select id="dateFilter" onchange="this.blur()"><option value="">All</option></select>
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <label>Schedule</label>
+                    <div class="select-wrapper">
+                        <select id="scheduleFilter" onchange="this.blur()"><option value="">All</option></select>
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <label>Remarks</label>
+                    <div class="select-wrapper">
+                        <select id="remarksFilter" onchange="this.blur()"><option value="">All</option></select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-controls-top">
+                <div class="entries-selector">
+                    SHOW:
+                    <select id="rowsPerPage">
+                        <option value="5">5</option>
+                        <option value="10" selected>10</option>
+                        <option value="25">25</option>
+                        <option value="all">All</option>
+                    </select>
+                    ENTRIES
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table id="attendanceTable">
+                    <thead>
+                        <tr>
+                            <th id="sortAttendanceName" class="sortable-header">
+                                Name
+                                <svg class="sort-icon" id="attendanceSortIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </th>
+                            <th>Organization</th>
+                            <th>Date</th>
+                            <th>Schedule</th>
+                            <th>Time In</th>
+                            <th>Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        </tbody>
+                </table>
+            </div>
+
+            <div class="table-controls-bottom">
+                <div class="pagination-info" id="paginationInfo">
+                    Showing 0 to 0 of 0 entries
+                </div>
+                <div class="pagination-buttons">
+                    <button id="prevPageBtn" class="btn btn-outline">Previous</button>
+                    <span id="pageIndicator" class="page-indicator">Page 1 of 1</span>
+                    <button id="nextPageBtn" class="btn btn-outline">Next</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Meeting Management -->
+        <section class="card">
+            <h2 class="section-title">Meeting Management</h2>
+            
+            <div class="meeting-layout">
+                <!-- Create/Edit Form -->
+                <div class="meeting-form-wrapper">
+                    <h3 id="meetingFormTitle" class="section-title" style="font-size: 15px; margin-bottom: 16px;">Create Meeting</h3>
+                    <div id="meetingForm" class="form-grid">
+                        <div class="filter-group">
+                            <label>Meeting Name</label>
+                            <input type="text" id="meetingName" placeholder="Enter meeting name">
+                        </div>
+                        <div class="filter-group">
+                            <label>Start Time</label>
+                            <input type="time" id="meetingStart">
+                        </div>
+                        <div class="filter-group">
+                            <label>Cutoff Time</label>
+                            <input type="time" id="meetingCutoff">
+                        </div>
+                        <div class="form-actions">
+                            <button id="createMeetingBtn" class="btn btn-primary">Create</button>
+                            <button id="clearMeetingBtn" class="btn btn-outline">Clear</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-wrapper" style="display: flex; flex-direction: column; width: 100%;">
+                    <div class="table-controls-top">
+                        <div class="entries-selector">
+                            SHOW:
+                            <select id="meetingRowsPerPage">
+                                <option value="5" selected>5</option>
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="all">All</option>
+                            </select>
+                            ENTRIES
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table id="meetingsTable">
+                            <thead>
+                                <tr>
+                                    <th>Meeting Name</th>
+                                    <th>Start Time</th>
+                                    <th>Cutoff Time</th>
+                                    <th>Active</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-controls-bottom">
+                        <div class="pagination-info" id="meetingPaginationInfo">
+                            Showing 0 to 0 of 0 entries
+                        </div>
+                        <div class="pagination-buttons">
+                            <button id="prevMeetingPageBtn" class="btn btn-outline">Previous</button>
+                            <span id="meetingPageIndicator" class="page-indicator">Page 1 of 1</span>
+                            <button id="nextMeetingPageBtn" class="btn btn-outline">Next</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div id="confirmModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <svg class="modal-icon" fill="none" stroke="#ef4444" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                </svg>
+                <h3>Delete Meeting</h3>
+            </div>
+            <p class="modal-body">Are you sure you want to delete this meeting? <br>This action cannot be undone.</p>
+            <div class="modal-actions">
+                <button id="cancelDeleteBtn" class="btn btn-outline">Cancel</button>
+                <button id="confirmDeleteBtn" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <div class="toast-icon" id="toastIcon"></div>
+        <div class="toast-message" id="toastMessage">Message goes here</div>
+    </div>
+
+    <!-- Premium Prompt Modal for Mass Deletions -->
+    <div id="promptModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <svg class="modal-icon" fill="none" stroke="#ef4444" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                </svg>
+                <h3>Clear All Records</h3>
+            </div>
+            <p class="modal-body">WARNING! This will permanently delete ALL attendance records.<br><br>Type <strong>DELETE</strong> to continue.</p>
+            
+            <input type="text" id="promptInput" class="modal-input" placeholder="Type DELETE here..." autocomplete="off">
+            
+            <div class="modal-actions">
+                <button id="cancelPromptBtn" class="btn btn-outline">Cancel</button>
+                <button id="confirmPromptBtn" class="btn btn-danger" disabled>Delete All</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Premium Prompt Modal for Exporting CSV -->
+    <div id="exportModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <!-- Premium Green Download Icon -->
+                <svg class="modal-icon" fill="none" stroke="#10b981" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                </svg>
+                <h3>Export to CSV</h3>
+            </div>
+            <p class="modal-body">Enter a filename for your attendance report.</p>
+            
+            <input type="text" id="exportInput" class="modal-input" autocomplete="off">
+            
+            <div class="modal-actions">
+                <button id="cancelExportBtn" class="btn btn-outline">Cancel</button>
+                <button id="confirmExportBtn" class="btn btn-primary">Download</button>
+            </div>
+        </div>
+    </div>
 
 
+    <!-- Premium Confirmation Modal for Logout -->
+    <div id="logoutModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <!-- Premium Exit Icon -->
+                <svg class="modal-icon" fill="none" stroke="#4b5563" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                </svg>
+                <h3>Log Out</h3>
+            </div>
+            <p class="modal-body">Are you sure you want to log out of the admin dashboard?</p>
+            <div class="modal-actions">
+                <button id="cancelLogoutBtn" class="btn btn-outline">Cancel</button>
+                <button id="confirmLogoutBtn" class="btn btn-primary">Log Out</button>
+            </div>
+        </div>
+    </div>
 
-<br>
+    <!-- Organization Management (Collapsible Accordion) -->
+        <section class="card">
+            <!-- Premium Clickable Header -->
+            <div id="orgToggleBtn" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer; padding-bottom: 8px;">
+                <h2 class="section-title" style="margin-bottom: 0;">Organization Management</h2>
+                <svg id="orgToggleIcon" style="width: 20px; height: 20px; transition: transform 0.3s; color: #6b7280;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </div>
+            
+            <!-- The Hidden Content Container -->
+            <div id="orgContent" class="accordion-wrapper">
+                <div class="accordion-inner">
+                    <div style="margin-top: 24px; border-top: 1px solid #e5e7eb; padding-top: 24px;"> 
+                <div class="meeting-layout"> <div class="meeting-form-wrapper">
+                    <h3 class="section-title" style="font-size: 15px; margin-bottom: 16px;">Add Organization</h3>
+                    <div class="form-grid">
+                        <div class="filter-group">
+                            <label>Organization Name</label>
+                            <input type="text" id="orgNameInput" placeholder="e.g. Olap Girls Choir">
+                        </div>
+                        <div class="form-actions">
+                            <button id="createOrgBtn" class="btn btn-primary">Add</button>
+                            <button id="clearOrgBtn" class="btn btn-outline">Clear</button>
+                        </div>
+                    </div>
+                </div>
 
-<hr>
+                <div class="table-wrapper" style="display: flex; flex-direction: column; width: 100%;">
+                    <div class="table-controls-top">
+                        <div class="entries-selector">
+                            SHOW:
+                            <select id="orgRowsPerPage">
+                                <option value="6" selected>6</option>
+                                <option value="10">10</option>
+                                <option value="all">All</option>
+                            </select>
+                            ENTRIES
+                        </div>
+                    </div>
 
-<h2>Meeting Management</h2>
+                    <div class="table-container">
+                        <table id="orgsTable">
+                            <thead>
+                                <tr>
+                                    <!-- Added an ID, a class, and an SVG icon -->
+                                    <th id="sortOrgName" class="sortable-header">
+                                        Organization Name
+                                        <svg class="sort-icon" id="orgSortIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                        </svg>
+                                    </th>
+                                    <th style="width: 100px; text-align: right;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                </tbody>
+                        </table>
+                    </div>
 
-<h3 id="meetingFormTitle">Create Meeting</h3>
+                    <div class="table-controls-bottom">
+                        <div class="pagination-info" id="orgPaginationInfo">Showing 0 to 0 of 0 entries</div>
+                        <div class="pagination-buttons">
+                            <button id="prevOrgPageBtn" class="btn btn-outline">Previous</button>
+                            <span id="orgPageIndicator" class="page-indicator">Page 1 of 1</span>
+                            <button id="nextOrgPageBtn" class="btn btn-outline">Next</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div> </div> </div> </section>
 
-<div id="meetingForm">
+        <!-- Premium Confirmation Modal for Adding Organization -->
+    <div id="addOrgModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <!-- Premium Blue Plus Icon -->
+                <svg class="modal-icon" fill="none" stroke="#3b82f6" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+                <h3>Add Organization</h3>
+            </div>
+            <p class="modal-body">Are you sure you want to add <strong id="confirmOrgName" style="color: #111827;"></strong> to the database?</p>
+            <div class="modal-actions">
+                <button id="cancelAddOrgBtn" class="btn btn-outline">Cancel</button>
+                <button id="confirmAddOrgBtn" class="btn btn-primary">Add Organization</button>
+            </div>
+        </div>
+    </div>
 
-    <label>Meeting Name</label><br>
-    <input
-        type="text"
-        id="meetingName"
-        placeholder="Enter meeting name">
+    <div id="deleteOrgModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <svg class="modal-icon" fill="none" stroke="#ef4444" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                </svg>
+                <h3>Delete Organization</h3>
+            </div>
+            <p class="modal-body">Are you sure you want to delete <strong id="deleteOrgNameDisplay" style="color: #111827;"></strong>?<br>This action cannot be undone.</p>
+            <div class="modal-actions">
+                <button id="cancelDeleteOrgBtn" class="btn btn-outline">Cancel</button>
+                <button id="confirmDeleteOrgBtn" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+    </div>
 
-    <br><br>
+    <!-- Premium Edit Organization Modal -->
+    <div id="editOrgModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <!-- Premium Amber Edit Icon -->
+                <svg class="modal-icon" fill="none" stroke="#f59e0b" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                </svg>
+                <h3>Edit Organization</h3>
+            </div>
+            <div class="modal-body" style="text-align: left;">
+                <label style="display: block; font-size: 14px; font-weight: 500; color: #374151; margin-bottom: 8px;">Organization Name</label>
+                <!-- Inherits your premium input styling -->
+                <input type="text" id="editOrgNameInput" class="modal-input" style="width: 100%; padding: 10px 12px; border: 1px solid #d1d5db; border-radius: 6px; margin-bottom: 8px;">
+            </div>
+            <div class="modal-actions">
+                <button id="cancelEditOrgBtn" class="btn btn-outline">Cancel</button>
+                <button id="confirmEditOrgBtn" class="btn btn-primary" style="background: #f59e0b; border-color: #f59e0b;">Save Changes</button>
+            </div>
+        </div>
+    </div>
 
-    <label>Start Time</label><br>
-    <input
-        type="time"
-        id="meetingStart">
+        
 
-    <br><br>
+    </main>
 
-    <label>Cutoff Time</label><br>
-    <input
-        type="time"
-        id="meetingCutoff">
-
-    <br><br>
-
-    <button id="createMeetingBtn">
-        Create Meeting
-    </button>
-
-    <button id="clearMeetingBtn">
-         Clear
-    </button>
-
-</div>
-
-<br>
-
-<table id="meetingsTable">
-
-    <thead>
-        <tr>
-            <th>Meeting Name</th>
-            <th>Start Time</th>
-            <th>Cutoff Time</th>
-            <th>Active</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-
-    <tbody>
-
-    </tbody>
-
-</table>
-
-<hr>
-
-<br><br>
-
-
-<button id="logoutBtn">
-    Logout
-</button>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/conf.js"></script>
-<script src="js/auth.js"></script>
-<script src="js/stats.js"></script>
-<script src="js/table.js"></script>
-<script src="js/filtering.js"></script>
-<script src="js/admin_data.js"></script>
-<script src="/js/manage_meetings.js"></script>
-<script src="js/export.js"></script>
-<script src="js/admin_actions.js"></script>
-<script src="js/admin.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/conf.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/stats.js"></script>
+    <script src="js/table.js"></script>
+    <script src="js/filtering.js"></script>
+    <script src="js/admin_data.js"></script>
+    <script src="js/manage_meetings.js"></script>
+    <script src="js/manage_orgs.js"></script>
+    <script src="js/export.js"></script>
+    <script src="js/admin_actions.js"></script>
+    <script src="js/admin.js"></script>
 
 </body>
 </html>

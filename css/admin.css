@@ -1,0 +1,938 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', Arial, sans-serif;
+}
+
+body {
+    background-color: #f9fafb;
+    color: #111827;
+    min-height: 100vh;
+    overflow-x: hidden; /* NEW: Stops the invisible mobile scroll bug */
+}
+
+/* Navbar */
+.navbar {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 16px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.navbar h1 {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.logout-btn {
+    background: transparent;
+    border: 1px solid #d1d5db;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #4b5563;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.logout-btn:hover {
+    background: #f3f4f6;
+    color: #111827;
+}
+
+/* Layout */
+/* Update this block in admin.css */
+.admin-container {
+    padding: 32px;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    width: 100%;       /* NEW: Ensures it doesn't push past the screen */
+    box-sizing: border-box; /* NEW: Keeps padding inside the width */
+}
+
+/* Sections & Cards */
+.card {
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    padding: 24px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #111827;
+}
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin-top: 16px;
+}
+
+.stat-card {
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.stat-card h3 {
+    font-size: 14px;
+    color: #6b7280;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.stat-card h2 {
+    font-size: 32px;
+    font-weight: 600;
+    color: #111827;
+}
+
+/* Filters Bar */
+.filters-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 24px;
+    align-items: flex-end;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+    min-width: 180px;
+}
+
+.filter-group label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #374151;
+}
+
+.filter-group input, 
+.filter-group select {
+    width: 100%; /* NEW: Keeps inputs strictly inside their boundaries */
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.2s;
+    background-color: #ffffff;
+}
+
+.filter-group input:focus, 
+.filter-group select:focus {
+    border-color: #111827;
+    box-shadow: 0 0 0 2px rgba(17, 24, 39, 0.1);
+}
+
+/* Select Wrapper Animation */
+.select-wrapper {
+    position: relative;
+    width: 100%;
+}
+.select-wrapper select {
+    width: 100%;
+    appearance: none;
+    padding-right: 32px;
+}
+.select-wrapper::after {
+    content: '';
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    pointer-events: none;
+    transition: transform 0.3s ease;
+}
+.select-wrapper:focus-within::after {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+/* Tables */
+.table-container {
+    overflow-x: auto;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    white-space: nowrap;
+}
+
+th {
+    background: #f9fafb;
+    padding: 14px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+td {
+    padding: 16px;
+    font-size: 14px;
+    color: #111827;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tr:hover td {
+    background: #f9fafb;
+}
+
+/* Buttons */
+.btn {
+    cursor: pointer;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+    padding: 10px 16px;
+    border: none;
+}
+
+.btn-primary {
+    background: #111827;
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background: #374151;
+}
+
+.btn-outline {
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    color: #374151;
+}
+
+.btn-outline:hover {
+    background: #f9fafb;
+    border-color: #9ca3af;
+}
+
+.btn-danger {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #ef4444;
+}
+
+.btn-danger:hover {
+    background: #fee2e2;
+    border-color: #f87171;
+}
+
+/* Meeting Management Layout */
+.meeting-layout {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 32px;
+    align-items: start;
+    margin-top: 16px;
+}
+
+/* CRITICAL FIX: Forces grid children to respect the screen width */
+.meeting-layout > * {
+    min-width: 0; 
+}
+
+@media (max-width: 1024px) {
+    .meeting-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+.form-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.form-actions .btn {
+    flex: 1;
+}
+
+/* Premium Typographic Buttons for Tables */
+.btn-text {
+    background: transparent;
+    border: none;
+    color: #6b7280; /* Subtle neutral gray */
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.btn-text:hover {
+    color: #111827; /* Stark black for strong contrast */
+    background: #f3f4f6; /* Very subtle background lift */
+}
+
+.btn-text-danger {
+    color: #ef4444;
+}
+
+.btn-text-danger:hover {
+    color: #dc2626;
+    background: #fef2f2;
+}
+
+/* Update this block in admin.css */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;    /* Force width to be exactly the viewport width */
+    height: 100vh;   /* Force height to be exactly the viewport height */
+    background: rgba(17, 24, 39, 0.4);
+    backdrop-filter: blur(2px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;   /* Higher z-index to stay above all other elements */
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    padding: 20px;
+}
+
+.modal-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 400px;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    transform: translateY(20px) scale(0.95);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Bouncy entrance */
+}
+
+.modal-overlay.show .modal-card {
+    transform: translateY(0) scale(1);
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.modal-icon {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+.modal-header h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #111827;
+}
+
+.modal-body {
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 24px;
+    line-height: 1.5;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+/* Custom Toast Notification */
+.toast {
+    position: fixed;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-100px);
+    background: #ffffff;
+    color: #111827;
+    padding: 16px 24px;
+    border-radius: 12px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 3000; /* Higher than the modal */
+    opacity: 0;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border-left: 4px solid transparent;
+}
+
+.toast.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+.toast.error {
+    border-left-color: #ef4444;
+}
+
+.toast.success {
+    border-left-color: #10b981;
+}
+
+.toast-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.toast-message {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Table Pagination Controls */
+.table-controls-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    margin-top: 8px;
+}
+
+.entries-selector {
+    font-size: 12px;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.entries-selector select {
+    padding: 6px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #111827;
+    background-color: #ffffff;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s;
+}
+
+.entries-selector select:focus {
+    border-color: #111827;
+    box-shadow: 0 0 0 2px rgba(17, 24, 39, 0.1);
+}
+
+.table-controls-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.pagination-info {
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.pagination-buttons {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.page-indicator {
+    font-size: 14px;
+    font-weight: 600;
+    color: #111827;
+}
+
+.pagination-buttons .btn {
+    padding: 8px 16px;
+    font-size: 13px;
+}
+
+.pagination-buttons .btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    background: #f9fafb;
+}
+
+/* Premium Toggle Switch */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 36px;
+    height: 20px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #e5e7eb; /* Soft neutral gray for inactive */
+    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 20px;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15); /* Premium drop shadow on the circle */
+}
+
+/* Color when active (matching your success toast) */
+.toggle-switch input:checked + .slider {
+    background-color: #0f195a; 
+}
+
+/* Slide the circle to the right */
+.toggle-switch input:checked + .slider:before {
+    transform: translateX(16px);
+}
+
+/* Subtle focus ring for accessibility */
+.toggle-switch input:focus-visible + .slider {
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+}
+
+/* Premium Modal Input */
+.modal-input {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 24px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.2s;
+    background-color: #f9fafb;
+    color: #111827;
+}
+
+.modal-input:focus {
+    border-color: #ef4444; /* Alert red focus ring */
+    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.1);
+    background-color: #ffffff;
+}
+
+.modal-actions .btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    background: #fef2f2;
+    border-color: #fee2e2;
+}
+
+/* Premium Accordion Slide Animation */
+.accordion-wrapper {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition: grid-template-rows 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+}
+
+.accordion-wrapper.open {
+    grid-template-rows: 1fr;
+    opacity: 1;
+}
+
+.accordion-inner {
+    overflow: hidden;
+}
+
+/* Premium Sortable Table Header */
+.sortable-header {
+    cursor: pointer;
+    user-select: none; /* Prevents text highlighting when clicking fast */
+    transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.sortable-header:hover {
+    color: #111827; /* Darkens text to near-black on hover */
+}
+
+.sort-icon {
+    width: 14px;
+    height: 14px;
+    color: #9ca3af;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s ease;
+}
+
+.sortable-header:hover .sort-icon {
+    color: #111827; /* Icon darkens along with text */
+}
+
+/* --- Premium Rolling Cylinder --- */
+.roll-action-group { display: inline-flex; gap: 16px; }
+.roll-btn { 
+    background: transparent; border: none; overflow: hidden; 
+    height: 20px; cursor: pointer; color: #6b7280; padding: 0 4px;
+}
+/* This container holds both the text and icon stacked vertically */
+.roll-content { 
+    display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 40px; /* Exactly double the height of the button */
+    pointer-events: none;
+}
+.roll-text { height: 20px; display: flex; align-items: center; font-size: 13px; font-weight: 500; }
+/* We use margin instead of padding so the SVG doesn't get crushed */
+.roll-icon { 
+    height: 16px; 
+    width: 16px; 
+    margin: 2px 0; /* 16px height + 4px margin = exactly 20px to match the text! */
+    display: block;
+}
+
+/* The Scroll Magic */
+.roll-btn:hover .roll-content { transform: translateY(-20px); }
+.roll-btn.roll-edit:hover { color: #d97706; }
+.roll-btn.roll-delete:hover { color: #ef4444; }
+
+/* --- Premium Mobile UI Polish --- */
+@media (max-width: 768px) {
+    /* Reduce background padding */
+    .admin-container {
+        padding: 16px;
+        gap: 16px;
+    }
+    
+    /* Reduce card padding */
+    .card {
+        padding: 16px;
+    }
+    
+    /* Shrink the navbar slightly */
+    .navbar {
+        padding: 12px 16px;
+    }
+    
+    /* Stack the section headers so buttons don't clip */
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    
+    /* Make Action buttons full width on mobile */
+    .section-header .action-buttons {
+        width: 100%;
+        display: flex;
+        gap: 8px;
+    }
+    
+    .section-header .action-buttons .btn {
+        flex: 1; /* Makes Export & Clear buttons split the screen evenly */
+    }
+
+    .logout-btn {
+        white-space: nowrap; 
+        padding: 6px 12px; /* Slims the padding down just a hair for mobile */
+    }
+
+    /* 2. Slightly shrink the badge so it fits better next to the logo */
+    .admin-badge {
+        font-size: 13px; 
+        line-height: 1.2;
+    }
+
+    /* 3. Tighten the gap between the logo, divider, and text */
+    .nav-brand {
+        gap: 8px; 
+    }
+    
+}
+
+/* --- Premium Dark Mode Overrides (GitHub Inspired) --- */
+/* --- Naked Toggle Button Styling & Animation --- */
+.theme-btn {
+    background: transparent; 
+    border: none; /* Removes the outline */
+    padding: 8px;
+    border-radius: 50%; /* Makes the hover effect a perfect circle */
+    color: #6b7280; 
+    cursor: pointer; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Hover creates a soft circle and pops the icon slightly */
+.theme-btn:hover { 
+    background: #f3f4f6; 
+    color: #111827; 
+    transform: scale(1.05); 
+}
+
+/* Smooth physics for the icon rotation */
+.theme-btn svg {
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* The Sun spins 90 degrees on hover */
+.theme-btn:hover .sun-icon {
+    transform: rotate(90deg);
+}
+
+/* The Moon gently tilts back on hover */
+.theme-btn:hover .moon-icon {
+    transform: rotate(-15deg);
+}
+/* The Dark Mode Activations */
+[data-theme="dark"] body { background-color: #0d1117; color: #e6edf3; }
+[data-theme="dark"] .navbar, 
+[data-theme="dark"] .card, 
+[data-theme="dark"] .stat-card, 
+[data-theme="dark"] .modal-card,
+[data-theme="dark"] .toast { 
+    background-color: #161b22; 
+    border-color: #30363d; 
+    color: #e6edf3;
+}
+[data-theme="dark"] .section-title, 
+[data-theme="dark"] .stat-card h2, 
+[data-theme="dark"] .modal-header h3 { color: #ffffff; }
+
+/* Table Overrides */
+[data-theme="dark"] th { background: #010409; color: #8b949e; border-color: #30363d; }
+[data-theme="dark"] td { color: #c9d1d9; border-color: #30363d; }
+[data-theme="dark"] tr:hover td { background: #21262d; }
+
+/* Input Overrides */
+[data-theme="dark"] .filter-group input, 
+[data-theme="dark"] .filter-group select,
+[data-theme="dark"] .modal-input,
+[data-theme="dark"] .entries-selector select { 
+    background-color: #0d1117; 
+    border-color: #30363d; 
+    color: #e6edf3; 
+}
+[data-theme="dark"] .filter-group input:focus, 
+[data-theme="dark"] .filter-group select:focus { border-color: #58a6ff; box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.1); }
+[data-theme="dark"] .filter-group label { color: #8b949e; }
+
+/* Button Overrides */
+[data-theme="dark"] .btn-outline,
+[data-theme="dark"] .logout-btn { background: transparent; border-color: #30363d; color: #c9d1d9; }
+
+[data-theme="dark"] .btn-outline:hover,
+[data-theme="dark"] .logout-btn:hover { background: #21262d; border-color: #8b949e; color: #ffffff; }
+
+/* Naked Theme Btn in Dark Mode */
+[data-theme="dark"] .theme-btn { background: transparent; border: none; color: #8b949e; }
+[data-theme="dark"] .theme-btn:hover { background: #21262d; color: #ffffff; }
+
+/* Sun/Moon Toggle Logic */
+[data-theme="dark"] .sun-icon { display: block !important; }
+[data-theme="dark"] .moon-icon { display: none !important; }
+
+/* Rolling Cylinder Dark Mode Polish */
+[data-theme="dark"] .roll-btn { color: #8b949e; }
+[data-theme="dark"] .roll-btn.roll-edit:hover { color: #58a6ff; }
+[data-theme="dark"] .roll-btn.roll-delete:hover { color: #f85149; }
+
+/* --- Dark Mode Patch: Danger Buttons (Clear Records) --- */
+[data-theme="dark"] .btn-danger {
+    background: rgba(248, 81, 73, 0.1); /* Sleek, transparent red tint */
+    border: 1px solid rgba(248, 81, 73, 0.4);
+    color: #ff7b72; /* Premium soft red text */
+}
+[data-theme="dark"] .btn-danger:hover {
+    background: rgba(248, 81, 73, 0.2);
+    border-color: rgba(248, 81, 73, 0.8);
+    color: #ffa198;
+}
+
+/* --- Dark Mode Patch: Pagination Text & Status --- */
+[data-theme="dark"] .page-indicator {
+    color: #e6edf3; /* Makes 'Page 1 of 1' crisp and readable */
+}
+[data-theme="dark"] .pagination-info,
+[data-theme="dark"] .entries-selector {
+    color: #8b949e; /* Soft grays for the secondary info text */
+}
+
+/* --- Dark Mode Patch: Pagination Buttons (Previous / Next) --- */
+/* Active state */
+[data-theme="dark"] .pagination-buttons .btn {
+    background: #21262d;
+    border: 1px solid #30363d;
+    color: #c9d1d9;
+}
+[data-theme="dark"] .pagination-buttons .btn:hover:not(:disabled) {
+    background: #30363d;
+    border-color: #8b949e;
+    color: #ffffff;
+}
+/* Disabled state */
+[data-theme="dark"] .pagination-buttons .btn:disabled {
+    background: transparent;
+    border: 1px solid #21262d;
+    color: #484f58; /* Muted stealth text */
+    opacity: 1; /* Removes the light-mode opacity fade */
+    cursor: not-allowed;
+}
+
+/* --- Premium Navbar Branding --- */
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.nav-logo {
+    height: 36px; /* Scales the logo down slightly for a clean navbar fit */
+    border-radius: 4px; /* Optional: Softens the edges of the JPG */
+}
+.nav-text {
+    height: 28px; /* Keeps the text image proportional */
+}
+.admin-divider {
+    height: 24px;
+    width: 2px;
+    background-color: #e5e7eb;
+    margin: 0 4px;
+}
+.admin-badge {
+    font-size: 16px;
+    font-weight: 600;
+    color: #4b5563;
+    letter-spacing: -0.01em;
+}
+
+/* --- Dark Mode Patch for Branding --- */
+[data-theme="dark"] .admin-divider { background-color: #30363d; }
+[data-theme="dark"] .admin-badge { color: #8b949e; }
+/* Since the logo text is a JPG, this subtle filter blends it slightly better with dark mode */
+/* --- The Dark Mode Logo Magic Trick --- */
+[data-theme="dark"] .nav-logo,
+[data-theme="dark"] .nav-text {
+    /* 1. Inverts white to black. 
+       2. Rotates the hue 180deg to turn the colors back to blue. 
+       3. Boosts the brightness so it pops. */
+    filter: invert(1) hue-rotate(180deg) brightness(1.8);
+    
+    /* 4. Drops the new black background entirely, making it transparent! */
+    mix-blend-mode: screen; 
+}
+
+/* --- Dark Mode Patch: Primary Buttons (Create / Add) --- */
+[data-theme="dark"] .btn-primary {
+    background: #1f6feb; /* Premium GitHub-style accent blue */
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 12px rgba(31, 111, 235, 0.2); /* Soft ambient shadow */
+}
+[data-theme="dark"] .btn-primary:hover {
+    background: #388bfd;
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* --- Dark Mode Patch: Toggle Switches --- */
+/* Inactive State */
+[data-theme="dark"] .slider {
+    background-color: #0d1117; /* Deep background cavity */
+    box-shadow: inset 0 0 0 1px #30363d; /* Uses inset shadow to prevent layout shifting */
+}
+[data-theme="dark"] .slider:before {
+    background-color: #8b949e; /* Muted stealth gray thumb */
+    box-shadow: none; /* Removes harsh light-mode shadow */
+}
+
+/* Active State (Premium Cyber Glow) */
+[data-theme="dark"] .toggle-switch input:checked + .slider {
+    background-color: rgba(88, 166, 255, 0.15); /* Soft translucent blue track */
+    box-shadow: inset 0 0 0 1px rgba(88, 166, 255, 0.4); 
+}
+[data-theme="dark"] .toggle-switch input:checked + .slider:before {
+    background-color: #58a6ff; /* Vibrant neon blue thumb */
+    box-shadow: 0 0 8px rgba(88, 166, 255, 0.6); /* The sleek glow effect */
+}
+
+/* Accessibility Focus Ring */
+[data-theme="dark"] .toggle-switch input:focus-visible + .slider {
+    box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.4);
+}
+
+/* --- Dark Mode Patch: Clock/Calendar Icon Visibility --- */
+[data-theme="dark"] input[type="time"] {
+    color-scheme: dark; 
+}

@@ -1,10 +1,35 @@
-let attendanceData = [];
+// --- Premium Light/Dark Mode Logic ---
+const currentTheme = localStorage.getItem("theme");
 
+// Instantly apply the saved theme on page load to prevent flashing
+if (currentTheme === "dark") {
+    document.documentElement.setAttribute("data-theme", "dark");
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    const themeToggleBtn = document.getElementById("themeToggleBtn");
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener("click", () => {
+            const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+            if (isDark) {
+                // Switch to Light Mode
+                document.documentElement.removeAttribute("data-theme");
+                localStorage.setItem("theme", "light");
+            } else {
+                // Switch to Dark Mode
+                document.documentElement.setAttribute("data-theme", "dark");
+                localStorage.setItem("theme", "dark");
+            }
+        });
+    }
+});
+// -------------------------------------
+
+let attendanceData = [];
 
 async function refreshAttendancePage() {
 
     attendanceData = await loadAttendanceData();
-
     filteredAttendanceData = attendanceData;
 
     loadOrganizationFilter();
@@ -13,7 +38,6 @@ async function refreshAttendancePage() {
     loadRemarksFilter();
 
     renderTable(attendanceData);
-
     updateDashboard(attendanceData);
 
 }
@@ -33,9 +57,9 @@ async function refreshAttendancePage() {
         .single();
 
     if (error) {
-    console.error("User lookup error:", error);
-    alert(error.message);
-    return;
+        console.error("User lookup error:", error);
+        showToast(error.message, "error"); // Upgraded from native alert
+        return;
     }
 
     if (user.role !== "admin") {
@@ -43,16 +67,74 @@ async function refreshAttendancePage() {
         return;
     }
 
-    
     // LOADING OF ATTENDANCE RECORDS
-   await refreshAttendancePage();
+    await refreshAttendancePage();
 
     const meetings = await loadMeetingsTable();
-
     renderMeetingsTable(meetings);
 
-    document.getElementById("logoutBtn").addEventListener("click", logout);
+    const orgs = await loadOrgsTable();
+    renderOrgsTable(orgs);
+
+    // --- NEW PREMIUM LOGOUT INTERCEPTOR ---
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+        const isConfirmed = await showLogoutModal();
+        if (isConfirmed) {
+            await logout(); // Calls your existing logout function from auth.js
+        }
+    });
 })();
 
+// --- Premium Custom Logout Dialog Logic ---
+function showLogoutModal() {
+    return new Promise((resolve) => {
+        const modal = document.getElementById("logoutModal");
+        const confirmBtn = document.getElementById("confirmLogoutBtn");
+        const cancelBtn = document.getElementById("cancelLogoutBtn");
 
+        // Reveal the modal
+        modal.classList.add("show");
 
+        // Cleanup function to hide modal and return the result
+        const cleanup = (result) => {
+            modal.classList.remove("show");
+            confirmBtn.onclick = null;
+            cancelBtn.onclick = null;
+            resolve(result);
+        };
+
+        // Resolve true if Log Out is clicked, false if Cancel is clicked
+        confirmBtn.onclick = () => cleanup(true);
+        cancelBtn.onclick = () => cleanup(false);
+    });
+}
+
+// --- Premium Attendance Name Sorting Logic ---
+let attendanceSortAsc = true; 
+
+document.getElementById("sortAttendanceName").addEventListener("click", () => {
+    const icon = document.getElementById("attendanceSortIcon");
+    
+    // Safety check: ensure data actually exists before trying to sort
+    if (!filteredAttendanceData || filteredAttendanceData.length === 0) return;
+
+    // 🛑 EXACT MATCH: Your database outputs this with a capital 'N'
+    const column = "Name"; 
+    
+    // We wrap it in String() to prevent crashes if a record happens to have a blank/null name
+    if (attendanceSortAsc) {
+        filteredAttendanceData.sort((a, b) => String(b[column]).localeCompare(String(a[column])));
+        icon.style.transform = "rotate(180deg)"; 
+    } else {
+        filteredAttendanceData.sort((a, b) => String(a[column]).localeCompare(String(b[column])));
+        icon.style.transform = "rotate(0deg)"; 
+    }
+    
+    attendanceSortAsc = !attendanceSortAsc; 
+    
+    if (typeof currentPage !== 'undefined') {
+        currentPage = 1; 
+    }
+    
+    renderTable(filteredAttendanceData);
+});

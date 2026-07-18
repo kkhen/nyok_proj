@@ -37,7 +37,7 @@ const existingRecord =
     );
 
 if (existingRecord) {
-    alert("You have already submitted your attendance for this schedule.");
+    showToast("You have already submitted your attendance for this schedule.", "error");
     return;
 }
 
@@ -54,7 +54,8 @@ const success = await saveAttendance({
 });
 
 if (success) {
-    alert("Attendance submitted successfully!");
+    // 👇 Added the "success" parameter right here
+    showToast("Attendance submitted successfully!", "success");
 }
 
 
@@ -115,7 +116,6 @@ async function saveAttendance(record) {
 
 
 function validateAttendanceForm() {
-
     const organization =
         document.getElementById("organization").value;
 
@@ -123,7 +123,8 @@ function validateAttendanceForm() {
     document.getElementById("schedule").value;
 
     if (!organization || !meetingId) {
-        alert("Please complete the form.");
+        // Replaced native alert with our premium UI toast
+        showToast("Please complete the form.", "error"); 
         return null;
     }
 
@@ -131,5 +132,4 @@ function validateAttendanceForm() {
         organization,
         meetingId
     };
-
 }
