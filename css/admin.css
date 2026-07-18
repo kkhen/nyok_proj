@@ -931,3 +931,8 @@ tr:hover td {
 [data-theme="dark"] .toggle-switch input:focus-visible + .slider {
     box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.4);
 }
+
+/* --- Dark Mode Patch: Clock/Calendar Icon Visibility --- */
+[data-theme="dark"] input[type="time"] {
+    color-scheme: dark; 
+}

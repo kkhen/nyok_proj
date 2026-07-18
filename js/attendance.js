@@ -54,7 +54,8 @@ const success = await saveAttendance({
 });
 
 if (success) {
-    showToast("Attendance submitted successfully!");
+    // 👇 Added the "success" parameter right here
+    showToast("Attendance submitted successfully!", "success");
 }
 
 
