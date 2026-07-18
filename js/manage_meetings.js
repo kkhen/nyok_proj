@@ -296,24 +296,50 @@ document.getElementById("createMeetingBtn").addEventListener("click", createMeet
 document.getElementById("clearMeetingBtn").addEventListener("click", clearMeetingForm);
 
 async function deleteMeeting(event) {
+
     const meetingId = event.target.dataset.id;
+
     const isConfirmed = await showConfirmModal();
-    
+
     if (!isConfirmed) return;
 
+    // Check if the meeting has attendance records
+    const { count, error: countError } = await myClient
+    .from("attendance_records")
+    .select("id", { count: "exact", head: true })
+    .eq("meeting_id", meetingId);
+
+    if (countError) {
+        console.error(countError);
+        showToast("Unable to verify attendance records.", "error");
+        return;
+    }
+
+    if (count > 0) {
+        showToast(
+            "This meeting cannot be deleted because attendance records already exist. Set it to Inactive instead.",
+            "warning"
+        );
+        return;
+    }
+
+    // Safe to delete
     const { error } = await myClient
         .from("meetings")
         .delete()
         .eq("id", meetingId);
 
     if (error) {
-        console.error("Error deleting meeting:", error);
-        showToast(error.message, "error");
+        console.error(error);
+        showToast("Unable to delete meeting.", "error");
         return;
     }
 
+    showToast("Meeting deleted successfully!", "success");
+
     const meetings = await loadMeetingsTable();
     renderMeetingsTable(meetings);
+
 }
 
 // --- Premium UI Helpers ---
