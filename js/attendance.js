@@ -27,7 +27,29 @@ async function submitAttendance() {
     return;
 }
 
-    const today = now.toISOString().split("T")[0];
+const today = now.toISOString().split("T")[0];
+
+const startTime =
+    new Date(`${today}T${meeting.start_time}`);
+
+if (now < startTime) {
+
+    const formattedStart = new Date(
+    `1970-01-01T${meeting.start_time}`
+).toLocaleTimeString([], {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true
+});
+
+showToast(
+    `Attendance has not started yet. Please submit after ${formattedStart}.`,
+    "error"
+);
+
+return;
+
+}
 
 const existingRecord =
     await hasAlreadySubmitted(
